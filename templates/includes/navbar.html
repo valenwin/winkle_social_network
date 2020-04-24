@@ -54,10 +54,8 @@
                 {% else %}
                     <img src="{% static 'images/header/u-icon.png' %}" title="" alt="">
                 {% endif %}
-                {% if request.user.first_name and request.user.last_name %}
-                    {% if request.user.first_name != 'FirstName' and request.user.last_name != 'LastName' %}
-                        {{ request.user.first_name }} {{ request.user.last_name }}
-                    {% endif %}
+                {% if request.user.first_name or request.user.last_name %}
+                    {{ request.user.first_name }} {{ request.user.last_name }}
                 {% else %}
                     {{ request.user.username }}
                 {% endif %}

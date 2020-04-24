@@ -19,7 +19,7 @@
                             </a>
                         </div>
                         <div class="sings col-md-6">
-                            <a href="/accounts/register/">Sign up here</a> &nbsp;
+                            <a href="{% url 'accounts:django_registration_register' %}">Sign up here</a> &nbsp;
                             <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
                         </div>
                         <div class="clearfix">
@@ -40,7 +40,7 @@
                                 {% for field in form %}
                                     {% if field.name == 'username' %}
                                         <div class="input-container">
-                                            {{ field.label }}
+                                            {{ field.label }} or Email
                                             {{ field }}
                                             <i class="fa fa-user"></i>
                                         </div>

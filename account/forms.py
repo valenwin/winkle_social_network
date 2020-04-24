@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django_registration.forms import RegistrationFormUniqueEmail
 
 from .utils import hunter, clearbit_signup
-from .models import Profile
+from .models import Profile, CustomUser
 
 
 class LoginForm(forms.Form):
@@ -16,10 +16,13 @@ class LoginForm(forms.Form):
     ))
 
 
-class RegistrationForm(RegistrationFormUniqueEmail):
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'password', 'password2')
+class CustomSignUpForm(RegistrationFormUniqueEmail):
+    email = forms.EmailField(max_length=150, help_text='eg. youremail@mail.com',
+                             widget=forms.EmailInput(attrs={'class': 'form-control'}))
+
+    class Meta(RegistrationFormUniqueEmail.Meta):
+        model = CustomUser
+        fields = ('username', 'email', 'password1', 'password2')
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -30,13 +33,12 @@ class RegistrationForm(RegistrationFormUniqueEmail):
 
     def clean_password2(self):
         cd = self.cleaned_data
-        if cd['password'] != cd['password2']:
+        if cd['password1'] != cd['password2']:
             raise forms.ValidationError('Passwords don\'t match.')
         return cd['password2']
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.is_staff = True
         user.first_name = clearbit_signup(user.email)[0]
         user.last_name = clearbit_signup(user.email)[1]
         user.set_password(self.cleaned_data["password1"])

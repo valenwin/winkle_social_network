@@ -25,7 +25,7 @@
             <li><a href="{% url 'accounts:login' %}"><img src="{% static 'images/menu-icon/user.png' %}" title="" alt="">
                 <div class="fos" id="foo10">Sign in</div>
             </a></li>
-            <li><a href="/accounts/register/"><img src="{% static 'images/menu-icon/user.png' %}" title="" alt="">
+            <li><a href="{% url 'accounts:django_registration_register' %}"><img src="{% static 'images/menu-icon/user.png' %}" title="" alt="">
                 <div class="fos" id="foo10">Sign up</div>
             </a></li>
         {% else %}

@@ -12,4 +12,4 @@ def clearbit_signup(email):
         first_name = str(person['name']['givenName'])
         last_name = str(person['name']['familyName'])
         return first_name, last_name
-    return 'FirstName', 'LastName'
+    return '', ''

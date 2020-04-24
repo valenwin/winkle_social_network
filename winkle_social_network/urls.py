@@ -25,8 +25,10 @@ from .views import ProfilesBaseView, MyProfileBaseView
 urlpatterns = [
     path('', WincleBaseView.as_view(), name='home_page'),
     path('admin/', admin.site.urls),
+
     path('account/', include(('account.urls', 'account'), namespace='accounts')),
     path('accounts/', include('django_registration.backends.one_step.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 
     path('profiles/', ProfilesBaseView.as_view(), name='profiles'),
     path('my_profile/', MyProfileBaseView.as_view(), name='my_profile'),
