@@ -30,6 +30,8 @@ urlpatterns = [
     path('accounts/', include('django_registration.backends.one_step.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
 
+    path('social-auth/', include('social_django.urls', namespace='social')),
+
     path('profiles/', ProfilesBaseView.as_view(), name='profiles'),
     path('my_profile/', MyProfileBaseView.as_view(), name='my_profile'),
 

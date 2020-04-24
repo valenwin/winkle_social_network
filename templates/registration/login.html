@@ -73,13 +73,14 @@
                                 <li><a href="#">About </a></li>
                                 <li><a href="#">Sitemap</a></li>
                                 <li>
-                                    <a href="#" class="btn btn-outline-primary">
+                                    <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"
+                                       class="btn btn-outline-primary">
                                         <i class="fa fa-facebook" aria-hidden="true"></i>
                                         Sign in with Facebook
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="btn btn-outline-danger">
+                                    <a href="{% url "social:begin" "google-oauth2" %}" class="btn btn-outline-danger">
                                         <i class="fa fa-google" aria-hidden="true"></i>
                                         Sign in with Google
                                     </a>

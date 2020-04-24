@@ -33,7 +33,7 @@ CLEARBIT_API_KEY = 'sk_370aad570bb0647dbfced41592fe1f6d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1']
 
 # Application definition
 
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'account.apps.AccountConfig',
+    'social_django',
 
 ]
 
@@ -131,12 +132,24 @@ LOGIN_REDIRECT_URL = 'accounts:dashboard'
 LOGIN_URL = 'accounts:login'
 LOGOUT_URL = 'accounts:logout'
 
-# Custom User Model
+# Authentication settings
 AUTH_USER_MODEL = 'account.CustomUser'
 AUTH_PROFILE_MODULE = 'account.Profile'
 
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend',
-                           'account.authentication.EmailAuthBackend']
+                           'account.authentication.EmailAuthBackend',
+                           'social_core.backends.facebook.FacebookOAuth2',
+                           'social_core.backends.google.GoogleOAuth2']
+
+# Authentication settings with Facebook
+#https://github.com/teddziuba/django-sslserver
+SOCIAL_AUTH_FACEBOOK_KEY = '2674747756093684'
+SOCIAL_AUTH_FACEBOOK_SECRET = '0572454006f427a7b4004e4e1e718530'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_RAISE_EXCEPTIONS = False
+# Authentication settings with Google
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '409932643730-ks0lvb4boq3nlq39a00m9us0ruc5n9c9.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'rKX6HxkTM0r8xMjPJwaXXpwS'
 
 # for email sending (reset password)
 EMAIL_HOST = 'smtp.gmail.com'
@@ -158,3 +171,5 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+SECURE_SSL_REDIRECT = False
