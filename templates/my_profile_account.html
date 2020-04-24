@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    My Dashboard
+{% endblock %}
+
+{% block content %}
+    <div id="wrapper">
+        <!-- Sidebar -->
+        {% include 'includes/sidebar.html' %}
+        <div id="content-wrapper">
+            <div class="container-fluid">
+                <!-- Banner -->
+                <div class="dashboard">
+                    <div class="advertisment-banner1 col-md-12">
+                        <img src="{% static 'images/banner/e-bg.jpg' %}" alt="" title="">
+                    </div>
+                    <div class="main-page">
+                        <div class=" dash-profile">
+                            {% if request.user.profile.photo %}
+                                <img src="{{ request.user.profile.photo.url }}" alt="">
+                            {% else %}
+                                <img src="{% static 'images/banner/01_edp.jpg' %}" alt="">
+                            {% endif %}
+                        </div>
+                        <div class="prompr">
+                            <ul class="pull-left prof">
+                                <li class="number">
+                                    <i class="fa fa-phone" aria-hidden="true"></i> &nbsp; +91 1234 567 890
+                                </li>
+                                <li class="number"><i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp; Location
+                                    here...
+                                </li>
+
+                                <li class="borders"><i class="fa fa-share-alt" aria-hidden="true"></i></li>
+                                <li class="borders"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></li>
+                            </ul>
+                            <div class="dashname">
+                                John Doe
+                                <p>@ auther_name</p>
+                            </div>
+                            <div class="likeds ml-2 mr-2">
+                                <div class="likeright">
+                                    <a href="{% url 'accounts:password_change' %}">Change Password</a>
+                                </div>
+                            </div>
+                            <div class="likeds">
+                                <div class="likeright">
+                                    <a href="{% url 'accounts:update_profile' %}">Edit</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                    </div>
+                </div>
+
+                <!-- Banner Area-->
+                <div class="settingmenu">
+                    <div class="navbar navbar-expand-md navbar-light">
+                        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav">
+                            <span class="navbar-toggler-icon "></span>
+                        </button>
+                        <div class="collapse navbar-collapse  visible-title" id="navbarNav">
+                            <ul class="navbar-nav ">
+                                <li>
+                                    <a href="#">About </a>
+                                </li>
+                                <li>
+                                    <a href="#"> Listing </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class=" locatins">
+                            <div class="heading">
+                                <img src="{% static 'images/banner/icon.html' %}" alt="">
+                                <h3>
+                                    Description
+                                </h3>
+                            </div>
+                            <div class="sub-heading">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a
+                                interdum neque. Nullam mi sem, tristique vel volutpat ac, consectetur sit
+                                amet massa. Curabitur at ipsum leo. Morbi porttitor lorem velit, at lacinia
+                                magna pretium at. Duis id mattis nisl. In sit amet eros sed lorem hendrerit
+                                ornare quis in mauris. Sed nec purus euismod, pharetra nibh a, aliquet lorem..
+                                Suspendisse pretium ullamcorper neque et aliquam.
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="locatins heading">
+                            <img src="{% static 'images/banner/Icon3.png' %}" alt="">
+                            <h3>
+                                Location
+                            </h3>
+                            <div class="tag">
+                                <a href="#">Credit</a>
+                                <a href="#">Wifi</a>
+                                <a href="#">Parking</a>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="box-left">
+                            <div class="rightboxs">
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                <span>Email Address</span>
+                                <p>johndoe@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="box-left">
+                            <div class="rightboxs">
+                                <i class="fa fa-mobile" aria-hidden="true"></i>
+                                <span>Phone Number </span>
+                                <p>+91 - 1234 567 890</p>
+                            </div>
+                        </div>
+                        <div class="box-left">
+                            <div class="rightboxs">
+                                <i class="fa fa-globe" aria-hidden="true"></i>
+                                <span>Website</span>
+                                <p>www.example.com</p>
+                            </div>
+                        </div>
+                        <div class="box-left">
+                            <div class="rightboxs">
+                                <img src="{% static 'images/banner/Icon9.png' %}" alt="">
+                                <span>Follow Us</span>
+                                <p>
+                                    <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                                    <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                                    <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                                    <a href="#"><i class="fa fa-google" aria-hidden="true"></i></a>
+                                    <a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
+                                    <a href="#"><i class="fa fa-lastfm-square" aria-hidden="true"></i></a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <!-- /.content-wrapper -->
+        </div>
+    </div>
+{% endblock %}

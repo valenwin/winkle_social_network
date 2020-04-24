@@ -1,0 +1,148 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon -->
+    <link href="{% static 'images/header/fav.png' %}" rel="shortcut icon" type="image/x-icon"/>
+
+    <title>
+        {% block title %}
+            Wincle Social Network
+        {% endblock %}
+    </title>
+
+    <!-- Bootstrap core CSS-->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'style/style.css' %}" rel="stylesheet">
+    <link href="{% static 'style/responsive.css' %}" rel="stylesheet">
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+
+    <!-- Page level plugin CSS-->
+    <link rel="stylesheet" href="{% static 'style/portfolio.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'style/dropdown.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'style/owlslider.css' %}" type="text/css">
+    <!-- Custom styles for this template-->
+    <link href="{% static 'style/sb-admin.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'style/font-awesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'style/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'assets/owlcarousel/assets/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/owlcarousel/assets/owl.theme.default.min.css' %}">
+
+</head>
+
+<body id="page-top">
+
+{% block header %}
+    {% include 'includes/navbar.html' %}
+{% endblock %}
+
+{% block content %}
+    <div id="wrapper">
+        {% include 'includes/sidebar.html' %}
+        <div class="container-fluid">
+            <!-- Banner -->
+            <div class="row">
+                <div class="messages text-center col-md-12">
+                    Latest
+                    <!-- Messages -->
+                    <div class="container">
+                        {% if messages %}
+                            <ul class="alert alert-success" style="list-style-type: none;">
+                                {% for message in messages %}
+                                    <li{% if message.tags %}
+                                        class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    <hr>
+                </div>
+                <div class="left_side">
+                    <div class="search-main">
+                        <form class="mb-3">
+                            <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            <input type="text" name="search" placeholder="Enter a keyword....">
+                        </form>
+                    </div>
+                    <div class="col-md-3 col-xs-12 col-sm-6 p-left">
+                        <div class="box">
+                            <div class="box-img">
+                                <img src="{% static 'images/homepage/latest/01_img.jpg' %}" alt="">
+                            </div>
+                            <div class="box-heading1">
+                                Place & Event Name
+                                <div class="box-heading2">
+                                    <i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp; Location here
+                                </div>
+                            </div>
+                            <div class="box-radius">
+                                <img src="{% static 'images/homepage/latest/01_dp.png' %}" class="img" alt=""
+                                     title="">
+                            </div>
+                            <div class="box-heading3">
+                                By john Doe <i class="fa pull-right fa-heart-o" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <!-- Sticky Footer -->
+    <footer class="sticky-footer col-md-12">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <div class="footer-info">
+                    <a href="#">About </a> |
+                    <a href="#">Sitemap </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+{% endblock %}
+<!-- /#wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Bootstrap core JavaScript-->
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Core plugin JavaScript-->
+<script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+<!-- Page level plugin JavaScript-->
+<script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+<script src="{% static 'vendor/datatables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'vendor/datatables/dataTables.bootstrap4.js' %}"></script>
+<!-- Custom scripts for all pages-->
+<script src="{% static 'js/sb-admin.min.js' %}"></script>
+<script src="{% static 'js/portfolio.js' %}"></script>
+<script src="{% static 'js/you-listing.js' %}"></script>
+<script src="{% static 'js/menurght.js' %}"></script>
+<script src="{% static 'js/crausal1.js' %}"></script>
+<script src="{% static 'js/dropdown.js' %}"></script>
+<!-- Demo scripts for this page-->
+<script src="{% static 'js/slick.min.js' %}"></script>
+
+<!-- Assect scripts for this page-->
+<script src="{% static 'js/slick.min.js' %}x"></script>
+<script src="{% static 'assets/owlcarousel/owl.carousel.js' %}"></script>
+<script src="{% static 'assets/vendors/highlight.js' %}"></script>
+<script src="{% static 'assets/js/app.js' %}"></script>
+
+</body>
+</html>

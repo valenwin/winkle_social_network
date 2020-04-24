@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Update Your Account
+{% endblock %}
+
+{% block header %} {% endblock %}
+
+{% block content %}
+    <div class="sign">
+        <div class="container">
+            <div class="row">
+                <div class="bg-form">
+                    <div class="sinheader">
+                        <div class="col-md-6">
+                            <a href="{% url 'home_page' %}">
+                                <img src="{% static 'images/header/fav.png' %}" alt="">Wincle
+                            </a>
+                        </div>
+                        <div class="sings col-md-6">
+                            <a href="{% url 'account:dashboard' %}">My Dashboard</a> &nbsp;
+                            <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                        </div>
+                        <div class="clearfix">
+                        </div>
+                        <div class="sform">
+                            <h1>Update your account</h1>
+                            <span>You can update your account using the following form:</span>
+
+                            <!-- Messages -->
+                            <div class="container">
+                                {% if messages %}
+                                    <ul class="alert alert-success" style="list-style-type: none;">
+                                        {% for message in messages %}
+                                            <li{% if message.tags %}
+                                                class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </div>
+
+                            <form class="sinup" action="{% url 'account:update_profile' %}" method="post" id="form" enctype='multipart/form-data'>
+                                {% csrf_token %}
+                                {% for field in user_form %}
+                                    <div class="input-container">
+                                        {{ field.label }}
+                                        {{ field }}
+                                    </div>
+                                {% endfor %}
+                                {% for field in profile_form %}
+                                    <div class="input-container">
+                                        {{ field.label }}
+                                        {{ field }}
+                                    </div>
+                                {% endfor %}
+                                <button type="submit" class="btn">Save Changes</button>
+                            </form>
+
+                        </div>
+                    </div>
+                    <div class="footer-sign">
+                        <div class="p-left col-md-8 footermenu">
+                            <ul>
+                                <li><a href="#">About </a></li>
+                                <li><a href="#">Sitemap</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %} {% endblock %}

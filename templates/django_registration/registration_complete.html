@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Welcome
+{% endblock %}
+
+{% block content %}
+    <div id="wrapper">
+        {% include 'includes/sidebar.html' %}
+        <div id="content-wrapper">
+            <div class="container-fluid">
+                <!-- Banner -->
+                <div class="row">
+                    <div class="messages text-center col-md-12">
+                        <!-- Messages -->
+                        <div class="container">
+                            <h1>Welcome {{ request.user.username }}!</h1>
+                            <p>Your account has been successfully created.
+                                Now you can view <a href="{% url "accounts:dashboard" %}">Your Dashboard</a>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

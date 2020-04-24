@@ -1,0 +1,94 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-md navbar-light fixed-top sticky-top nav-menu">
+    <div class="col-md-2 col-xs-12 p-left  p-right">
+
+        <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="logo">
+            <a href="{% url 'home_page' %}">
+                <img src="{% static 'images/header/fav.png' %}" alt="logo">
+            </a>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <div class="col-md-5 col-xs-12 p-left  p-right">
+        <div class="searching">
+            <form>
+                <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                <input type="text" name="search"
+                       placeholder="Search Places, Events, House, Shop, Bike, Car, Mobile etc...">
+            </form>
+        </div>
+    </div>
+    <div class="col-md-5 col-xs-12 p-left p-right">
+        <div class="add-listing">
+            <a href="#"><img src="{% static 'images/header/plus-ico.png' %}" alt="">Add Listing</a>
+        </div>
+        <div class="home">
+            <ul>
+                <li class="popup" onclick="myFunctionicon()">
+                    <img src="{% static 'images/header/notification.png' %}" alt="" title="">
+                    <span>2</span>
+                    <div class="popuptext" id="icon">
+                        <div class="notfication-details">
+                            <div class="noty-user-img">
+                                <img src="{% static 'images/resources/ny-img1.png' %}" alt="">
+                            </div>
+                            <div class="notification-info">
+                                <h3><a href="#">Jassica William</a> Comment on your project.</h3>
+                                <p>2 min ago</p>
+                            </div><!--notification-info -->
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!--#Home-->
+        {% if request.user.is_authenticated %}
+            <div class="login popup" onclick="signin()">
+                {% if request.user.profile.photo %}
+                    <img src="{{ request.user.profile.photo.url }}" alt="">
+                {% else %}
+                    <img src="{% static 'images/header/u-icon.png' %}" title="" alt="">
+                {% endif %}
+                {% if request.user.first_name and request.user.last_name %}
+                    {% if request.user.first_name != 'FirstName' and request.user.last_name != 'LastName' %}
+                        {{ request.user.first_name }} {{ request.user.last_name }}
+                    {% endif %}
+                {% else %}
+                    {{ request.user.username }}
+                {% endif %}
+                <div class="popuptext1" id="signin">
+                    <div class="notfication-details">
+                        <div class="notification-info">
+                            <a href="{% url 'accounts:dashboard' %}">My Dashboard</a>
+                        </div>
+                    </div>
+                    <div class="notfication-details">
+                        <div class="notification-info">
+                            <a href="#">Profile Detail</a>
+                        </div>
+                    </div>
+                    <div class="notfication-details">
+                        <div class="notification-info">
+                            <a href="{% url 'accounts:update_profile' %}">Edit Profile</a>
+                        </div>
+                    </div>
+                    <div class="notfication-details">
+                        <div class="notification-info">
+                            <a href="{% url 'accounts:password_change' %}">Change Password</a>
+                        </div>
+                    </div>
+                    <div class="notfication-details">
+                        <div class="notification-info">
+                            <a href="{% url 'accounts:logout' %}">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</nav>

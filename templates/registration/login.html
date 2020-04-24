@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Sign In
+{% endblock %}
+
+{% block header %} {% endblock %}
+
+{% block content %}
+    <div class="sign">
+        <div class="container">
+            <div class="row">
+                <div class="bg-form">
+                    <div class="sinheader">
+                        <div class="col-md-6">
+                            <a href="{% url 'home_page' %}">
+                                <img src="{% static 'images/header/fav.png' %}" alt="">Wincle
+                            </a>
+                        </div>
+                        <div class="sings col-md-6">
+                            <a href="/accounts/register/">Sign up here</a> &nbsp;
+                            <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                        </div>
+                        <div class="clearfix">
+                        </div>
+                        <div class="sform">
+                            <h1>Sign in</h1>
+                            <span>Hello there! Sign in and start managing your item.</span>
+
+                            {% if form.errors %}
+                                <p class="badge-warning mt-3">Your username and password didn't match. Please try
+                                    again.</p>
+                            {% else %}
+                                <p class="badge-primary mt-3">Please, use the following form to log in:</p>
+                            {% endif %}
+
+                            <form class="sinup" action="" method="post">
+                                {% csrf_token %}
+                                {% for field in form %}
+                                    {% if field.name == 'username' %}
+                                        <div class="input-container">
+                                            {{ field.label }}
+                                            {{ field }}
+                                            <i class="fa fa-user"></i>
+                                        </div>
+                                    {% elif field.name == 'password' %}
+                                        <div class="input-container">
+                                            {{ field.label }}
+                                            {{ field }}
+                                            <i class="fa fa-eye-slash" aria-hidden="true" onclick="reveal()" id="eye"></i>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                                <button type="submit" class="btn">Sign in</button>
+                                <div class="forgets">
+                                    <a href="{% url 'accounts:password_reset' %}">
+                                        Forgot password?
+                                    </a>
+                                </div>
+                                <div class="forgets">
+                                    <a href="{% url 'accounts:password_change' %}">
+                                        Change your password
+                                    </a>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                    <div class="footer-sign">
+                        <div class="p-left col-md-8 footermenu">
+                            <ul>
+                                <li><a href="#">About </a></li>
+                                <li><a href="#">Sitemap</a></li>
+                                <li>
+                                    <a href="#" class="btn btn-outline-primary">
+                                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                                        Sign in with Facebook
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="btn btn-outline-danger">
+                                        <i class="fa fa-google" aria-hidden="true"></i>
+                                        Sign in with Google
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %} {% endblock %}
+
+<script type="text/javascript">
+	$("#password").password('toggle');
+</script>
