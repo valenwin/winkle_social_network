@@ -130,7 +130,7 @@ USE_L10N = True
 USE_TZ = True
 
 # success login
-LOGIN_REDIRECT_URL = 'accounts:dashboard'
+LOGIN_REDIRECT_URL = 'images:dashboard'
 # for @login_required
 LOGIN_URL = 'accounts:login'
 LOGOUT_URL = 'accounts:logout'

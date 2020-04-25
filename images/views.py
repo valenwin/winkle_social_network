@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView
 
 from .models import Image
-from .forms import ImageCreateForm
+from .forms import ImageCreateForm, CommentForm
 
 
 class ImageCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
@@ -63,7 +63,19 @@ class ImageDetailsView(DetailView):
         context = super().get_context_data(**kwargs)
         image = self.model.objects.get(slug=self.kwargs.get('slug'))
         context['image'] = image
+        context['form'] = CommentForm()
+        context['comments'] = image.comments.filter(active=True)
         return context
+
+    def post(self, request, *args, **kwargs):
+        try:
+            form = CommentForm(request.POST)
+            form.instance.image = self.model.objects.get(slug=self.kwargs.get('slug'))
+            form.instance.user = self.request.user
+            form.save()
+            return redirect('images:image_details', slug=self.kwargs.get('slug'))
+        except ValueError:
+            return redirect(reverse_lazy('account:django_registration_register'))
 
 
 @login_required
