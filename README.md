@@ -20,3 +20,4 @@ Basic models:<br />
     - Used **Pillow** library for saving profile image
 
 - `Image` (create, view list (user's dashboard) and details of each image)
+- `Comment` (image comments by registered users)
