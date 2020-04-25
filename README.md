@@ -19,4 +19,4 @@ Basic models:<br />
     - Used **django signals** for creation profile instance while user registered
     - Used **Pillow** library for saving profile image
 
-- `Image` 
+- `Image` (create, view list (user's dashboard) and details of each image)
