@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Add image
+{% endblock %}
+
+{% block content %}
+    <div id="wrapper">
+    {% include 'includes/sidebar.html' %}
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <!-- Banner -->
+            <div class="dashboard">
+                <div class="advertisment-banner1 col-md-12">
+                    <img src="{% static 'images/banner/e-bg.jpg' %}" alt="" title="">
+                </div>
+                <div class="main-page">
+                    <div class="dash-profile">
+                        {% if request.user.profile.photo %}
+                            <img src="{{ request.user.profile.photo.url }}" alt="">
+                        {% else %}
+                            <img src="{% static 'images/banner/h-dp.jpg' %}" alt="">
+                        {% endif %}
+                    </div>
+                    <div class="prompr">
+                        <ul class="pull-right prof">
+                            <li class="number"><i class="fa fa-phone" aria-hidden="true"></i> &nbsp; +91 1234 567
+                                890
+                            </li>
+                            <li class="number"><i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp; Location
+                                here...
+                            </li>
+
+                            <li class="borders"><i class="fa fa-share-alt" aria-hidden="true"></i></li>
+                            <li class="borders"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></li>
+                        </ul>
+                        <div class="dashname">
+                            John Doe
+                            <p>@ auther_name</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-12 mylisting">
+                    <div class="col-md-3 col-xs-12 ">
+                        <div class="sform">
+                            <h1>Add image to your dashboard</h1>
+                            <img src="{{ request.GET.url }}" class="image-preview" alt="" style="width: 50%; height: 50%">
+
+                             {% if form.errors %}
+                                <p class="badge-warning mt-3">{{ form.errors }}</p>
+                            {% else %}
+                                <p class="badge-info mt-3">Please, use the following form to upload an image:</p>
+                            {% endif %}
+
+                            <form class="sinup" action="." method="post">
+                                {% csrf_token %}
+                                {% for field in form %}
+                                   {{ field.label }}
+                                   {{ field }}
+                                {% endfor %}
+                                <button type="submit" class="btn">Add image</button>
+                            </form>
+
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <!-- /.content-wrapper -->
+            </div>
+        </div>
+    </div>
+{% endblock %}

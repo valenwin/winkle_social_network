@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Image - {{ image.title }} Details
+{% endblock %}
+
+{% block content %}
+    <div id="wrapper">
+        {% include 'includes/sidebar.html' %}
+        <div class="container-fluid">
+            <!-- Banner -->
+            <div class="row">
+                <div class="messages text-center col-md-12">
+                    Image "{{ image.title }}" Details
+                    <p>posted on {{ image.created }}</p>
+                    <hr>
+                </div>
+                <div class="col-md-12">
+                    <div class="row ml-1 mr-5">
+                        <div class="col-md-6 col-xs-12 col-sm-6 p-left">
+                            <div class="box-img">
+                                <img src="{{ image.image.url }}" alt="">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12 col-sm-6">
+                            {{ image.description }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

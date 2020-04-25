@@ -37,8 +37,8 @@
                                 <li class="borders"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></li>
                             </ul>
                             <div class="dashname">
-                                John Doe
-                                <p>@ auther_name</p>
+                                {{ request.user.first_name }} {{ request.user.last_name }}
+                                <p>@ {{ request.user.username }}</p>
                             </div>
                             <div class="likeds ml-2 mr-2">
                                 <div class="likeright">

@@ -8,7 +8,7 @@
                 <div class="fos" id="foo">Home</div>
             </a></li>
         {% if request.user.is_authenticated %}
-            <li><a href="{% url 'account:dashboard' %}"><img src="{% static 'images/menu-icon/Categoryicon.png' %}" title="" alt="">
+            <li><a href="{% url 'images:dashboard' %}"><img src="{% static 'images/menu-icon/Categoryicon.png' %}" title="" alt="">
                 <div class="fos" id="foo1">My Dashboard</div>
             </a></li>
              <li><a href="{% url 'my_profile' %}"><img src="{% static 'images/menu-icon/favicon.png' %}" title="" alt="">

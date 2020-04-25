@@ -1,7 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -16,10 +15,6 @@ from .forms import LoginForm, UserEditForm, ProfileEditForm
 
 class WincleBaseView(TemplateView):
     template_name = 'base.html'
-
-
-class DashboardBaseView(LoginRequiredMixin, TemplateView):
-    template_name = 'account/my_dashboard.html'
 
 
 class RegistrationCompleteView(TemplateView):
