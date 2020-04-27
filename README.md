@@ -47,7 +47,7 @@ and change file name to .env:
 
 `python3 manage.py migrate`
 
-4 - **Ngrok** for host name creation:
+4 - **Ngrok** for hostname creation:
 
 `https://ngrok.com/download` and run `./ngrok http 8000` <br />
 or `brew cask install ngrok` and run `ngrok http 8000` <br />

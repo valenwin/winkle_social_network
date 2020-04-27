@@ -13,7 +13,9 @@
                         {% csrf_token %}
                         {% for field in form %} {{ field }} {% endfor %}
                         <br>
-                        <button type="submit" class="btn btn-info pull-right">Post</button>
+                        <button type="submit" class="btn btn-info pull-right">
+                            <i class="fa fa-paper-plane" aria-hidden="true"></i> Post
+                        </button>
                     </form>
 
                     <div class="clearfix"></div>

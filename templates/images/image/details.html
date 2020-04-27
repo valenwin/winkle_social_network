@@ -24,12 +24,34 @@
                             </div>
                         </div>
                         <div class="col-md-6 col-xs-12 col-sm-6">
-                            {{ image.description }}
+                            {{ image.description|linebreaks }}
+                            <!-- Likes -->
+                            {% with total_likes=image.users_like.count %}
+                                <div>
+                                    <div>
+                                        <h3>
+                                            <span class="badge badge-pill badge-warning">
+                                                {{ total_likes }} like{{ total_likes|pluralize }}
+                                            </span>
+                                        </h3>
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    {% for user in image.users_like.all %}
+                                        <div>
+                                            <img src="{{ user.profile.photo.url }}" alt="">
+                                            <p>{{ user.first_name }}</p>
+                                        </div>
+                                    {% empty %}
+                                        <p>Nobody likes this image yet.</p>
+                                    {% endfor %}
+                                </div>
+                            {% endwith %}
                         </div>
                     </div>
                 </div>
             </div>
-
             <!-- Comments -->
             <div class="messages col-md-12">
                 <div class="col-md-8">
