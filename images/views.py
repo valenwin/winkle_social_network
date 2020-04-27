@@ -1,9 +1,7 @@
 from django.conf import settings
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView
@@ -16,7 +14,7 @@ class ImageCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Image
     form_class = ImageCreateForm
     template_name = 'images/image/create.html'
-    success_url = reverse_lazy('account:dashboard')
+    success_url = reverse_lazy('images:dashboard')
     success_message = ''
 
     def get(self, request, *args, **kwargs):
@@ -56,7 +54,7 @@ class ImageDashboardListView(LoginRequiredMixin, ListView):
 
 class ImageDetailsView(DetailView):
     model = Image
-    context_object_name = 'post'
+    context_object_name = 'images'
     template_name = 'images/image/details.html'
 
     def get_context_data(self, **kwargs):
@@ -76,20 +74,3 @@ class ImageDetailsView(DetailView):
             return redirect('images:image_details', slug=self.kwargs.get('slug'))
         except ValueError:
             return redirect(reverse_lazy('account:django_registration_register'))
-
-
-@login_required
-def image_create(request):
-    form = ImageCreateForm(data=request.GET)
-    if request.method == 'POST':
-        form = ImageCreateForm(data=request.POST)
-        if form.is_valid():
-            new_item = form.save(commit=False)
-            new_item.user = request.user
-            new_item.save()
-            messages.success(request, 'Image added successfully')
-            return redirect('account:dashboard')
-    return render(request, 'images/image/create.html', {
-                'section': 'images',
-                'form': form
-    })

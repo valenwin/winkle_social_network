@@ -30,12 +30,12 @@ SECRET_KEY = env.str('SECRET_KEY')
 EMAIL_HUNTER_API_KEY = 'd3b26a5ba37161e904ea6bc20a67357130f4b58f'
 CLEARBIT_API_KEY = 'sk_370aad570bb0647dbfced41592fe1f6d'
 
-POSTS_PER_PAGE = 9
+POSTS_PER_PAGE = 8
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1', 'fee8d5e4.ngrok.io']
 
 # Application definition
 

@@ -25,15 +25,19 @@
                         </div>
                         <div class="prompr">
                             <ul class="pull-right prof">
-                                <li class="number"><i class="fa fa-phone" aria-hidden="true"></i> &nbsp; +91 1234 567
-                                    890
+                                <li class="number">
+                                    <a href="javascript:{% include "images/bookmarklet_launcher.js" %}"
+                                       class="btn btn-warning">
+                                        <i class="fa fa-bookmark" aria-hidden="true"></i> Bookmark image</a>
                                 </li>
-                                <li class="number"><i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp; Location
-                                    here...
+                                <li class="number">
+                                    <a href="{% url "account:update_profile" %}" class="btn btn-info">
+                                        <i class="fa fa-edit" aria-hidden="true"></i> Edit Profile</a>
                                 </li>
-
-                                <li class="borders"><i class="fa fa-share-alt" aria-hidden="true"></i></li>
-                                <li class="borders"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></li>
+                                <li class="number" style="margin-left:-10px;">
+                                    <a href="{% url "my_profile" %}" class="btn btn-info">
+                                        <i class="fa fa-user" aria-hidden="true"></i> Profile</a>
+                                </li>
                             </ul>
                             <div class="dashname">
                                 {{ request.user.first_name }} {{ request.user.last_name }}
@@ -62,6 +66,24 @@
                             </ul>
                         {% endif %}
                     </div>
+
+                    <!-- Pagination -->
+                    {% if is_paginated %}
+                        <div class="container">
+                            {% include 'images/includes/pagination.html' %}
+                        </div>
+                    {% endif %}
+
+                    <div class="container">
+                        <div class="messages text-center col-md-12">
+                            {% with total_images_created=request.user.images_created.count %}
+                                <h4>You have bookmarked {{ total_images_created }}
+                                    image{{ total_images_created|pluralize }}</h4>
+                            {% endwith %}
+                        </div>
+                        <hr>
+                    </div>
+
                     <div class="col-md-12 mylisting">
                         <div class="row ml-1 mr-5">
                             {% for image in images %}
@@ -88,15 +110,9 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
-
-                <!-- Pagination -->
-                {% if is_paginated %}
-                    <div class="load_more">
-                        {% include 'images/includes/pagination.html' %}
-                    </div>
-                {% endif %}
-
             </div>
         </div>
     </div>
 {% endblock %}
+
+{% block footer %} {% endblock %}

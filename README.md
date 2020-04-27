@@ -21,3 +21,43 @@ Basic models:<br />
 
 - `Image` (create, view list (user's dashboard) and details of each image)
 - `Comment` (image comments by registered users)
+
+Other functionality:<br />
+- jQuery `Bookmark image` button (move button to your browser Bookmarks Bar and tap on it every time you want to bookmark some photo or image)
+
+## Deploy project on your local machine
+
+1 - To deploy project on your local machine create new virtual environment and execute this command:
+
+`pip install -r requirements.txt`
+
+2 - Insert your own db configuration settings (see example.env):
+and change file name to .env:
+
+`SECRET_KEY`,
+
+`DB_PASSWORD`,
+`DB_NAME`,
+`DB_USER`
+
+`EMAIL_HOST_USER`,
+`EMAIL_HOST_PASSWORD`
+
+3 - Migrate db models to PostgreSQL:
+
+`python3 manage.py migrate`
+
+4 - **Ngrok** for host name creation:
+
+`https://ngrok.com/download` and run `./ngrok http 8000` <br />
+or `brew cask install ngrok` and run `ngrok http 8000` <br />
+copy `Forwarding address` instead data in next files: <br />
+1. settings.py => ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1', '`Forwarding address`'] <br />
+2. static/js/bookmarklet.js => const site_url = '\'https://`Forwarding address`\''; <br />
+3. templates/images/bookmarklet_launcher.js => 'https://`Forwarding address`/static/js/bookmarklet.js?r='
+
+5 - Load data from JSON files:
+
+6 - Run app:
+
+`python3 manage.py runserver`
