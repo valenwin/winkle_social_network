@@ -9,6 +9,7 @@ from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
 from django.views.generic import CreateView, DetailView, ListView
 
+from winkle_social_network.common.decorators import ajax_required
 from .models import Image
 from .forms import ImageCreateForm, CommentForm
 
@@ -27,15 +28,17 @@ class ImageCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        self.success_message = 'Image added successfully'
+        self.success_message = 'Book added successfully'
         return super().form_valid(form)
 
 
 class ImageDashboardListView(LoginRequiredMixin, ListView):
-    queryset = Image.objects.all()
     template_name = 'images/dashboard.html'
     context_object_name = 'images'
     paginate_by = settings.POSTS_PER_PAGE
+
+    def get_queryset(self):
+        return Image.objects.filter(user=self.request.user)
 
     def get_context_data(self, **kwargs):
         """With pagination for posts list view"""
@@ -79,6 +82,7 @@ class ImageDetailsView(DetailView):
             return redirect(reverse_lazy('account:django_registration_register'))
 
 
+@ajax_required
 @login_required
 @require_POST
 def image_like(request):

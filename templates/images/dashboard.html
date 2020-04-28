@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load thumbnail %}
 
 {% block title %}
     My Dashboard
@@ -43,11 +44,6 @@
                                 {{ request.user.first_name }} {{ request.user.last_name }}
                                 <p>@ {{ request.user.username }}</p>
                             </div>
-                            <div class="likeds ml-2 mr-2">
-                                <div class="likeright">
-                                    <a href="{% url 'images:create' %}">Upload Image</a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="clearfix">
@@ -90,17 +86,21 @@
                                 <div class="col-md-3 col-xs-12">
                                     <div class="box">
                                         <a href="{{ image.get_absolute_url }}">
-                                            <div class="box-img">
-                                                <img src="{{ image.image.url }}" alt="">
-                                            </div>
+                                            {% thumbnail image.image "250x275" crop="100%" as im %}
+                                                <a href="{{ image.get_absolute_url }}"> 
+                                                    <img src="{{ im.url }}" alt="">
+                                                </a>
+                                            {% endthumbnail %}
                                             <div class="box-radius">
-                                                <img src="{{ image.user.profile.photo.url }}" class="img" alt=""
-                                                     title="" style="height: 100%; width: 100%; border-radius: 50%;">
+                                                {% if image.user.profile.photo %}
+                                                    <img src="{{ image.user.profile.photo.url }}" class="img" alt=""
+                                                         title="" style="height: 100%; width: 100%; border-radius: 50%;">
+                                                {% else %}
+                                                    <img src="{% static 'images/banner/h-dp.jpg' %}" alt=""
+                                                         style="height: 100%; width: 100%; border-radius: 50%;">
+                                                {% endif %}
                                             </div>
-                                            <div class="box-heading3">
-                                                {{ image.title }} <i class="fa pull-right fa-heart-o"
-                                                                     aria-hidden="true"></i>
-                                            </div>
+                                            <div class="box-heading3">{{ image.title }}</div>
                                         </a>
                                     </div>
                                 </div>

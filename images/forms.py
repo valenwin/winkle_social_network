@@ -14,7 +14,9 @@ class ImageCreateForm(forms.ModelForm):
         fields = ('title', 'url', 'description')
 
         widgets = {
-            'url': forms.HiddenInput()
+            'url': forms.HiddenInput(),
+            'title': forms.TextInput(attrs={'class': 'form-control mt-2', 'placeholder': 'Title'}),
+            'description': forms.Textarea(attrs={'class': 'form-control mt-2 mb-2', 'placeholder': 'Type your description here...'})
         }
 
     def clean_url(self):

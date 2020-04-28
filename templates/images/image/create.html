@@ -51,9 +51,10 @@
                     <div class="col-md-3 col-xs-12 ">
                         <div class="sform">
                             <h1>Add image to your dashboard</h1>
-                            <img src="{{ request.GET.url }}" class="image-preview" alt="" style="width: 50%; height: 50%">
+                            <img src="{{ request.GET.url }}" class="image-preview" alt=""
+                                 style="width: 50%; height: 50%">
 
-                             {% if form.errors %}
+                            {% if form.errors %}
                                 <p class="badge-warning mt-3">{{ form.errors }}</p>
                             {% else %}
                                 <p class="badge-info mt-3">Please, use the following form to upload an image:</p>
@@ -62,8 +63,7 @@
                             <form class="sinup" action="." method="post">
                                 {% csrf_token %}
                                 {% for field in form %}
-                                   {{ field.label }}
-                                   {{ field }}
+                                    {{ field }}
                                 {% endfor %}
                                 <button type="submit" class="btn">Add image</button>
                             </form>
