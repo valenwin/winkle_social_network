@@ -21,7 +21,7 @@
                         <div class="col-md-6 col-xs-12 col-sm-6">
                             <div class="box-img">
                                 {% load thumbnail %}
-                                {% thumbnail image.image "300" as im %}
+                                {% thumbnail image.image "300x300" as im %}
                                     <a href="{{ image.image.url }}">
                                         <img src="{{ im.url }}" class="image-detail">
                                     </a>
@@ -31,22 +31,31 @@
                         <div class="col-md-6 col-xs-12 col-sm-6">
                             {{ image.description|linebreaks }}
                             <!-- Likes -->
-                            {% with total_likes=image.users_like.count %}
+                            {% with total_likes=image.users_like.count users_like=image.users_like.all %}
                                 <div>
                                     <div>
-                                        <h3>
-                                            <span class="badge badge-pill badge-warning">
-                                                {{ total_likes }} like{{ total_likes|pluralize }}
-                                            </span>
-                                        </h3>
-                                        <span></span>
+                                        <a href="#" data-id="{{ image.id }}"
+                                           data-action="{% if request.user in users_like %}un{% endif %}like"
+                                           class="like button btn btn-info">
+                                            {% if request.user not in users_like %}
+                                                Like
+                                            {% else %}
+                                                Unlike
+                                            {% endif %}
+                                        </a>
+                                        <span class="count">
+                                            <span class="total">{{ total_likes }}</span>
+                                            like{{ total_likes|pluralize }}
+                                        </span>
                                     </div>
                                 </div>
                                 <div>
                                     {% for user in image.users_like.all %}
                                         <div>
-                                            <img src="{{ user.profile.photo.url }}" alt="">
-                                            <p>{{ user.first_name }}</p>
+                                            <p>Users who liked your image:</p>
+                                            <img src="{{ user.profile.photo.url }}" alt=""
+                                                 style="height: 10%; width: 10%; border-radius: 50%;">
+                                            <span>{{ user.first_name }}</span>
                                         </div>
                                     {% empty %}
                                         <p>Nobody likes this image yet.</p>
@@ -68,3 +77,33 @@
 {% endblock %}
 
 {% block footer %} {% endblock %}
+
+{% block domready %}
+    $('a.like').click(function(e){
+    e.preventDefault();
+    $.post('{% url "images:like" %}',
+    {
+    id: $(this).data('id'),
+    action: $(this).data('action')
+    },
+    function(data){
+    if (data['status'] == 'ok')
+    {
+    var previous_action = $('a.like').data('action');
+
+    // toggle data-action
+    $('a.like').data('action', previous_action == 'like' ?
+    'unlike' : 'like');
+    // toggle link text
+    $('a.like').text(previous_action == 'like' ? 'Unlike' :
+    'Like');
+
+    // update total likes
+    var previous_likes = parseInt($('span.count .total').text());
+    $('span.count .total').text(previous_action == 'like' ?
+    previous_likes + 1 : previous_likes - 1);
+    }
+    }
+    );
+    });
+{% endblock %}
