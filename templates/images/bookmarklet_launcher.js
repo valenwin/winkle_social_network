@@ -3,7 +3,7 @@
         myBookmarklet();
     }
     else {
-        document.body.appendChild(document.createElement('script')).src='https://fee8d5e4.ngrok.io/static/js/bookmarklet.js?r='
+        document.body.appendChild(document.createElement('script')).src='https://f5cce7bc.ngrok.io/static/js/bookmarklet.js?r='
             + Math.floor(Math.random()*99999999999999999999);
     }
 })();

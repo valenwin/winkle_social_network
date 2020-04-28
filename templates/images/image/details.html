@@ -20,7 +20,12 @@
                     <div class="row ml-1 mr-5">
                         <div class="col-md-6 col-xs-12 col-sm-6">
                             <div class="box-img">
-                                <img src="{{ image.image.url }}" alt="">
+                                {% load thumbnail %}
+                                {% thumbnail image.image "300" as im %}
+                                    <a href="{{ image.image.url }}">
+                                        <img src="{{ im.url }}" class="image-detail">
+                                    </a>
+                                {% endthumbnail %}
                             </div>
                         </div>
                         <div class="col-md-6 col-xs-12 col-sm-6">

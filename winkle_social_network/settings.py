@@ -35,7 +35,7 @@ POSTS_PER_PAGE = 8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1', 'fee8d5e4.ngrok.io']
+ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1', 'f5cce7bc.ngrok.io']
 
 # Application definition
 
@@ -49,7 +49,9 @@ INSTALLED_APPS = [
 
     'account',
     'social_django',
-    'images'
+    'images',
+
+    'sorl.thumbnail',
 
 ]
 
