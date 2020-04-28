@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -7,7 +8,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
-from django.views.generic import CreateView, DetailView, ListView
+from django.views.generic import CreateView, DetailView, ListView, DeleteView, UpdateView
 
 from winkle_social_network.common.decorators import ajax_required
 from .models import Image
@@ -28,7 +29,7 @@ class ImageCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        self.success_message = 'Book added successfully'
+        self.success_message = 'Image added successfully'
         return super().form_valid(form)
 
 
@@ -80,6 +81,34 @@ class ImageDetailsView(DetailView):
             return redirect('images:image_details', slug=self.kwargs.get('slug'))
         except ValueError:
             return redirect(reverse_lazy('account:django_registration_register'))
+
+
+class ImageUpdateView(LoginRequiredMixin, UpdateView):
+    model = Image
+    form_class = ImageCreateForm
+    template_name = 'images/image/update.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        """ Making sure that only authors can update posts """
+        obj = self.get_object()
+        if obj.user != self.request.user:
+            messages.error(request, 'Restricted access. You are not owner of this image.')
+            return redirect(obj)
+        return super(ImageUpdateView, self).dispatch(request, *args, **kwargs)
+
+
+class ImageDeleteView(LoginRequiredMixin, DeleteView):
+    model = Image
+    template_name = 'images/image/delete.html'
+    success_url = reverse_lazy('images:dashboard')
+
+    def dispatch(self, request, *args, **kwargs):
+        """ Making sure that only authors can delete posts """
+        obj = self.get_object()
+        if obj.user != self.request.user and not request.user.is_superuser:
+            messages.error(request, 'Restricted access. You are not owner of this image.')
+            return redirect(obj)
+        return super(ImageDeleteView, self).dispatch(request, *args, **kwargs)
 
 
 @ajax_required

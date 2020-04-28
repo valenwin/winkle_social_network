@@ -47,6 +47,8 @@
                                             <span class="total">{{ total_likes }}</span>
                                             like{{ total_likes|pluralize }}
                                         </span>
+                                        <a href="{{ image.get_update_url }}" class="btn btn-outline-warning">Update</a>
+                                        <a href="{{ image.get_delete_url }}" class="btn btn-outline-danger">Delete</a>
                                     </div>
                                 </div>
                                 <div>
