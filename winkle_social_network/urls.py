@@ -18,9 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-
 from account.views import WincleBaseView
-from .views import ProfilesBaseView, MyProfileBaseView
 
 urlpatterns = [
     path('', WincleBaseView.as_view(), name='home_page'),
@@ -32,9 +30,6 @@ urlpatterns = [
     path('social-auth/', include('social_django.urls', namespace='social')),
 
     path('images/', include(('images.urls', 'images'), namespace='images')),
-
-    path('profiles/', ProfilesBaseView.as_view(), name='profiles'),
-    path('my_profile/', MyProfileBaseView.as_view(), name='my_profile'),
 
 ]
 

@@ -1,16 +1,21 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import render
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
-from django.views.generic import FormView, RedirectView, TemplateView
+from django.views.generic import FormView, RedirectView, TemplateView, ListView, DetailView
 
+from images.models import Image
 from .forms import LoginForm, UserEditForm, ProfileEditForm
+from .models import CustomUser
 
 
 class WincleBaseView(TemplateView):
@@ -65,6 +70,43 @@ class LogoutView(SuccessMessageMixin, RedirectView):
         logout(request)
         self.success_message = 'Logout successfully.'
         return super(LogoutView, self).get(request, *args, **kwargs)
+
+
+class UserProfileListView(LoginRequiredMixin, ListView):
+    template_name = 'account/profiles.html'
+    paginate_by = settings.USER_PROFILE_PER_PAGE
+
+    def get_queryset(self):
+        return CustomUser.objects.all()
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(UserProfileListView, self).get_context_data(**kwargs)
+        users = self.get_queryset()
+
+        page = self.request.GET.get('page')
+        paginator = Paginator(users, self.paginate_by)
+        try:
+            users = paginator.page(page)
+        except PageNotAnInteger:
+            users = paginator.page(1)
+        except EmptyPage:
+            users = paginator.page(paginator.num_pages)
+
+        context['users'] = users
+        return context
+
+
+class UserProfileDetailsView(LoginRequiredMixin, DetailView):
+    model = CustomUser
+    template_name = 'account/user_profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = get_object_or_404(self.model, slug=self.kwargs.get('slug'))
+        images = Image.objects.filter(user=user)
+        context['user'] = user
+        context['images'] = images
+        return context
 
 
 @login_required

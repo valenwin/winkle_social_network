@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
 from django.views.generic import CreateView, DetailView, ListView, DeleteView, UpdateView
@@ -41,7 +41,7 @@ class ImageDashboardListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Image.objects.filter(user=self.request.user)
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *, object_list=None, **kwargs):
         """With pagination for posts list view"""
         context = super(ImageDashboardListView, self).get_context_data(**kwargs)
         images = self.get_queryset()
@@ -64,9 +64,9 @@ class ImageDetailsView(DetailView):
     context_object_name = 'images'
     template_name = 'images/image/details.html'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        image = self.model.objects.get(slug=self.kwargs.get('slug'))
+        image = get_object_or_404(self.model, slug=self.kwargs.get('slug'))
         context['image'] = image
         context['form'] = CommentForm()
         context['comments'] = image.comments.filter(active=True)

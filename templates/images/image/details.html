@@ -47,17 +47,26 @@
                                             <span class="total">{{ total_likes }}</span>
                                             like{{ total_likes|pluralize }}
                                         </span>
-                                        <a href="{{ image.get_update_url }}" class="btn btn-outline-warning">Update</a>
-                                        <a href="{{ image.get_delete_url }}" class="btn btn-outline-danger">Delete</a>
+                                        {% if request.user == image.user %}
+                                            <a href="{{ image.get_update_url }}" class="btn btn-outline-warning">Update</a>
+                                            <a href="{{ image.get_delete_url }}" class="btn btn-outline-danger">Delete</a>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div>
+                                    <p>Users who liked your image:</p>
                                     {% for user in image.users_like.all %}
                                         <div>
-                                            <p>Users who liked your image:</p>
-                                            <img src="{{ user.profile.photo.url }}" alt=""
-                                                 style="height: 10%; width: 10%; border-radius: 50%;">
-                                            <span>{{ user.first_name }}</span>
+                                            {% if user.profile.photo %}
+                                                <img src="{{ user.profile.photo.url }}" alt=""
+                                                     style="height: 10%; width: 10%; border-radius: 50%;">
+                                            {% else %}
+                                                <img src="{% static 'images/profile/user.png' %}" alt=""
+                                                     style="height: 10%; width: 10%; border-radius: 50%;">
+                                            {% endif %}
+                                            <a href="{{ user.get_absolute_url }}" style="color: #4e555b;">
+                                                {{ user.username }}
+                                            </a>
                                         </div>
                                     {% empty %}
                                         <p>Nobody likes this image yet.</p>

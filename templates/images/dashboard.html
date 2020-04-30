@@ -14,14 +14,15 @@
                 <!-- Banner -->
                 <div class="dashboard">
                     <div class="advertisment-banner1 col-md-12">
-                        <img src="{% static 'images/banner/e-bg.jpg' %}" alt="" title="">
+                        <img src="{% static 'images/banner/M-bg.jpg' %}" alt="" title="">
                     </div>
                     <div class="main-page">
                         <div class="dash-profile">
                             {% if request.user.profile.photo %}
                                 <img src="{{ request.user.profile.photo.url }}" alt="">
                             {% else %}
-                                <img src="{% static 'images/banner/h-dp.jpg' %}" alt="">
+                                <img src="{% static 'images/profile/user.png' %}" alt=""
+                                style="width: 90%; height: 90%;">
                             {% endif %}
                         </div>
                         <div class="prompr">
@@ -36,12 +37,12 @@
                                         <i class="fa fa-edit" aria-hidden="true"></i> Edit Profile</a>
                                 </li>
                                 <li class="number" style="margin-left:-10px;">
-                                    <a href="{% url "my_profile" %}" class="btn btn-info">
+                                    <a href="{{ request.user.get_absolute_url }}" class="btn btn-info">
                                         <i class="fa fa-user" aria-hidden="true"></i> Profile</a>
                                 </li>
                             </ul>
                             <div class="dashname">
-                                {{ request.user.first_name }} {{ request.user.last_name }}
+                                {{ user.get_full_name }}
                                 <p>@ {{ request.user.username }}</p>
                             </div>
                         </div>
@@ -96,7 +97,7 @@
                                                     <img src="{{ image.user.profile.photo.url }}" class="img" alt=""
                                                          title="" style="height: 100%; width: 100%; border-radius: 50%;">
                                                 {% else %}
-                                                    <img src="{% static 'images/banner/h-dp.jpg' %}" alt=""
+                                                    <img src="{% static 'images/profile/user.png' %}" alt=""
                                                          style="height: 100%; width: 100%; border-radius: 50%;">
                                                 {% endif %}
                                             </div>

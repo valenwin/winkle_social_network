@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load thumbnail %}
+
+{% block title %}
+    My Dashboard
+{% endblock %}
+
+{% block content %}
+    <div id="wrapper">
+        <!-- Sidebar -->
+        {% include 'includes/sidebar.html' %}
+        <div id="content-wrapper">
+            <div class="container-fluid">
+                <!-- Banner -->
+                <div class="dashboard">
+                    <div class="advertisment-banner1 col-md-12">
+                        <img src="{% static 'images/banner/h-bg.jpg' %}" alt="" title="">
+                    </div>
+                    <div class="main-page">
+                        <div class="dash-profile mt-2">
+                            {% if user.profile.photo %}
+                                {% thumbnail user.profile.photo "120x120" crop="100%" as im %}
+                                    <img src="{{ im.url }}" class="user-detail" alt="">
+                                {% endthumbnail %}
+                            {% else %}
+                                <img src="{% static 'images/profile/user.png' %}" alt=""
+                                     style="width: 90%; height: 90%;">
+                            {% endif %}
+                            <h4>{{ user.get_full_name }}</h4>
+                            <p>@ {{ user.username }}</p>
+                        </div>
+
+                        <div class="prompr">
+                            <ul class="pull-left prof">
+                                <li class="number">
+                                    <i class="fa fa-phone" aria-hidden="true"></i> &nbsp; +91 1234 567 890
+                                </li>
+                                <li class="number"><i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp; Location
+                                    here...
+                                </li>
+                                <li class="borders">
+                                    <a href="{% url 'images:dashboard' %}">
+                                        <i class="fa fa-dashboard" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                                <li class="borders">
+                                    <a href="#">
+                                        <i class="fas fa-user-friends" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                            </ul>
+
+                            {% if user == request.user %}
+                                <div class="likeds ml-2 mr-2">
+                                    <div class="likeright">
+                                        <a href="{% url 'accounts:password_change' %}">Change Password</a>
+                                    </div>
+                                </div>
+                                <div class="likeds">
+                                    <div class="likeright">
+                                        <a href="{% url 'accounts:update_profile' %}">Edit</a>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {% if user != request.user %}
+                                <div class="likeds">
+                                    <!-- Following System -->
+                                    {% with total_followers=user.followers.count %}
+                                        <span>
+                                            <span class="total">{{ total_followers }}</span>
+                                            follower{{ total_followers|pluralize }}
+                                        </span>
+
+                                        <a href="#" data-id="{{ user.id }}"
+                                           data-action="{% if request.user in user.followers.all %}un{% endif %}follow"
+                                           class="follow button btn btn-warning mr-2" style="font-size: 15px;">
+                                            {% if request.user not in user.followers.all %}
+                                                Follow {% else %} Unfollow
+                                            {% endif %}
+                                        </a>
+                                    {% endwith %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                    </div>
+                </div>
+
+                <!-- Banner Area-->
+                <div class="settingmenu">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                               aria-controls="home"
+                               aria-selected="true">User Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="images-tab" data-toggle="tab" href="#images" role="tab"
+                               aria-controls="profile"
+                               aria-selected="false">Images</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="following-tab" data-toggle="tab" href="#following" role="tab"
+                               aria-controls="contact"
+                               aria-selected="false">Followers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="followers-tab" data-toggle="tab" href="#followers" role="tab"
+                               aria-controls="contact"
+                               aria-selected="false">Following</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class=" locatins">
+                                    <div class="heading">
+                                        <img src="{% static 'images/menu-icon/info.png' %}" alt="">
+                                        <h3>
+                                            About
+                                        </h3>
+                                    </div>
+                                    <div class="sub-heading">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a
+                                        interdum neque. Nullam mi sem, tristique vel volutpat ac, consectetur sit
+                                        amet massa. Curabitur at ipsum leo. Morbi porttitor lorem velit, at lacinia
+                                        magna pretium at. Duis id mattis nisl. In sit amet eros sed lorem hendrerit
+                                        ornare quis in mauris. Sed nec purus euismod, pharetra nibh a, aliquet lorem..
+                                        Suspendisse pretium ullamcorper neque et aliquam.
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="locatins heading">
+                                    <img src="{% static 'images/banner/Icon3.png' %}" alt="">
+                                    <h3>
+                                        Location
+                                    </h3>
+                                    <p></p>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="box-left">
+                                    <div class="rightboxs">
+                                        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                        <span>Email Address</span>
+                                        <p>{{ user.email }}</p>
+                                    </div>
+                                </div>
+                                <div class="box-left">
+                                    <div class="rightboxs">
+                                        <i class="fa fa-mobile" aria-hidden="true"></i>
+                                        <span>Phone Number </span>
+                                        <p>+91 - 1234 567 890</p>
+                                    </div>
+                                </div>
+                                <div class="box-left">
+                                    <div class="rightboxs">
+                                        <i class="fa fa-globe" aria-hidden="true"></i>
+                                        <span>Website</span>
+                                        <p>www.example.com</p>
+                                    </div>
+                                </div>
+                                <div class="box-left">
+                                    <div class="rightboxs">
+                                        <img src="{% static 'images/banner/Icon9.png' %}" alt="">
+                                        <span>Follow Me</span>
+                                        <p>
+                                            <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                                            <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                                            <a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
+                        <div class="col-md-12 mt-3 ml-4">
+                            <div class="row">
+                                {% for image in images %}
+                                    <div class="col-md-3 col-xs-12 col-sm-6 p-left">
+                                        <div class="box">
+                                            <div class="box-img">
+                                                {% thumbnail image.image "150x150" crop="100%" as im %}
+                                                    <a href="{{ image.get_absolute_url }}">
+                                                        <img src="{{ im.url }}" alt="">
+                                                    </a>
+                                                {% endthumbnail %}
+                                            </div>
+                                            <div class="box-radius">
+                                                {% if image.user.profile.photo %}
+                                                    <img src="{{ image.user.profile.photo.url }}" class="img" alt=""
+                                                         title="" style="height: 100%; width: 100%; border-radius: 50%;">
+                                                {% else %}
+                                                    <img src="{% static 'images/profile/user.png' %}" alt=""
+                                                         style="height: 100%; width: 100%; border-radius: 50%;">
+                                                {% endif %}
+                                            </div>
+                                            <div class="box-heading3">{{ image.title }}</div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="following" role="tabpanel" aria-labelledby="following-tab">
+                        Following
+                    </div>
+                    <div class="tab-pane fade" id="followers" role="tabpanel" aria-labelledby="followers-tab">
+                        Followers
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <!-- /.content-wrapper -->
+        </div>
+    </div>
+{% endblock %}

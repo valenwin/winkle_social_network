@@ -1,3 +1,5 @@
+{% load static %}
+
 <div class="row bootstrap snippets">
     <div class="col-md-12 col-md-offset-2 col-sm-12">
         <div class="comment-wrapper">
@@ -23,15 +25,22 @@
                     <ul class="media-list">
                         {% for comment in comments %}
                             <li class="media">
-                                <a href="#" class="text-center">
-                                    <img src="{{ comment.user.profile.photo.url }}" alt="" class="img-circle"
-                                         style="width: 60%; height: 60%; border-radius: 50%;">
-                                </a>
+                                {% if comment.user.profile.photo %}
+                                    <img src="{{ comment.user.profile.photo.url }}" alt="" class="img-circle mr-3 mb-1"
+                                         style="width: 10%; height: 10%; border-radius: 50%;">
+                                {% else %}
+                                    <img src="{% static 'images/profile/user.png' %}" alt=""
+                                         class="img-circle mr-3 mb-1"
+                                         style="width: 10%; height: 10%; border-radius: 50%;">
+                                {% endif %}
                                 <div class="media-body">
                                     <span class="text-muted pull-right">
-                                        <small class="text-muted" style="font-size: small;">{{ comment.created }}</small>
+                                        <small class="text-muted"
+                                               style="font-size: small;">{{ comment.created }}</small>
                                     </span>
-                                    <strong class="text-success">@{{ comment.user.username }}</strong>
+                                    <a href="{{ comment.user.get_absolute_url }}">
+                                        <strong class="text-success">@{{ comment.user.username }}</strong>
+                                    </a>
                                     <p>{{ comment.body }}</p>
                                 </div>
                             </li>

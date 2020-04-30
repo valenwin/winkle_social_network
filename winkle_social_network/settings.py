@@ -30,7 +30,9 @@ SECRET_KEY = env.str('SECRET_KEY')
 EMAIL_HUNTER_API_KEY = 'd3b26a5ba37161e904ea6bc20a67357130f4b58f'
 CLEARBIT_API_KEY = 'sk_370aad570bb0647dbfced41592fe1f6d'
 
+# Pagination
 POSTS_PER_PAGE = 8
+USER_PROFILE_PER_PAGE = 8
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

@@ -2,14 +2,14 @@
 
 <div class="dashboard">
     <div class="advertisment-banner1 col-md-12">
-        <img src="{% static 'images/banner/e-bg.jpg' %}" alt="" title="">
+        <img src="{% static 'images/banner/bg.jpg' %}" alt="" title="">
     </div>
     <div class="main-page">
         <div class="dash-profile">
             {% if request.user.profile.photo %}
                 <img src="{{ request.user.profile.photo.url }}" alt="">
             {% else %}
-                <img src="{% static 'images/banner/h-dp.jpg' %}" alt="">
+                <img src="{% static 'images/profile/user.png' %}" alt="">
             {% endif %}
         </div>
         <div class="prompr">
@@ -25,8 +25,8 @@
                 <li class="borders"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></li>
             </ul>
             <div class="dashname">
-                John Doe
-                <p>@ auther_name</p>
+                {{ request.user.first_name }} {{ request.user.last_name }}
+                <p>@ {{ request.user.username }}</p>
             </div>
         </div>
     </div>

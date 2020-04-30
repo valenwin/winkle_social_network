@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Profiles
+{% endblock %}
+
+{% block content %}
+    <div id="wrapper">
+        {% include 'includes/sidebar.html' %}
+        <div class="container-fluid">
+            <!-- Banner -->
+            <div class="row">
+                <div class="messages text-center col-md-12">
+                    Find Profiles
+                    <hr>
+                </div>
+                <div class="left_side">
+                    <div class="search-main">
+                        <form>
+                            <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            <input type="text" name="search" placeholder="Enter a keyword....">
+                        </form>
+                    </div>
+                    <div class="col-md-12 col-xs-12 col-sm-6 p-left mb-5">
+                        <div class="row">
+                            {% for user in users %}
+                                <div class="col-md-3 col-xs-12 col-sm-6 ">
+                                    <div class="mainbox">
+                                        <div class="imgbox">
+                                            {% if user.profile.photo %}
+                                                <img src="{{ user.profile.photo.url }}" alt="">
+                                            {% else %}
+                                                <img src="{% static 'images/profile/user.png' %}" alt="">
+                                            {% endif %}
+                                        </div>
+                                        <div class="lefttext">
+                                            {{ user.get_full_name }}
+                                            <p>@{{ user.username }}</p>
+                                        </div>
+                                        <div class="righttext">
+                                                <a href="{{ user.get_absolute_url }}">View</a>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %} {% endblock %}

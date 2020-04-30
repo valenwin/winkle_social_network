@@ -11,14 +11,12 @@
             <li><a href="{% url 'images:dashboard' %}"><img src="{% static 'images/menu-icon/Categoryicon.png' %}" title="" alt="">
                 <div class="fos" id="foo1">My Dashboard</div>
             </a></li>
-             <li><a href="{% url 'my_profile' %}"><img src="{% static 'images/menu-icon/favicon.png' %}" title="" alt="">
+             <li><a href="{{ request.user.get_absolute_url }}">
+                 <img src="{% static 'images/menu-icon/favicon.png' %}" title="" alt="">
                 <div class="fos" id="foo1">My Profile</div>
             </a></li>
         {% endif %}
-        <li><a href="#"><img src="{% static 'images/menu-icon/eye.png' %}" title="" alt="">
-            <div class="fos" id="foo1">Images</div>
-        </a></li>
-        <li><a href="{% url 'profiles' %}"><img src="{% static 'images/menu-icon/flag.png' %}" title="" alt="">
+        <li><a href="{% url 'accounts:profiles' %}"><img src="{% static 'images/menu-icon/flag.png' %}" title="" alt="">
             <div class="fos" id="foo2">Profiles</div>
         </a></li>
         {% if not request.user.is_authenticated %}
