@@ -22,7 +22,8 @@ Basic models:<br />
 - `Image` (create, view list (user's dashboard) and details of each image)
     - `CRUD` operations
     - `Like vs Unlike` for image using **AJAX requests plus jQuery**
-- `Comment` (image comments by registered users)
+- `Comment` (image comments for registered users)
+- `Contact` (base for user subscription system (following/followers))
 
 Other functionality:<br />
 - jQuery `Bookmark image` button (move button to your browser Bookmarks Bar and tap on it every time you want to bookmark some photo or image)
