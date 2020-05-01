@@ -9,9 +9,9 @@ class CustomUser(AbstractUser):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     # user.followers.all() / user.following.all()
-    following = models.ManyToManyField('self',
+    followers = models.ManyToManyField('self',
                                        through='Contact',
-                                       related_name='followers',
+                                       related_name='following',
                                        symmetrical=False)
     slug = models.SlugField(max_length=200,
                             blank=True,

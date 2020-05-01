@@ -24,7 +24,11 @@ Basic models:<br />
     - `Like vs Unlike` for image using **AJAX requests plus jQuery**
 - `Comment` (image comments for registered users)
 - `Contact` (base for user subscription system (following/followers) by using **AJAX handler**) 
-- `Action`
+- `Action`:
+    - user added the picture to bookmarks;
+    - user liked the image;
+    - user created an account;
+    - user subscribed to updates.
 
 Other functionality:<br />
 - jQuery `Bookmark image` button (move button to your browser Bookmarks Bar and tap on it every time you want to bookmark some photo or image)

@@ -67,16 +67,16 @@
                             {% if user != request.user %}
                                 <div class="likeds">
                                     <!-- Following System -->
-                                    {% with total_followers=user.followers.count %}
+                                    {% with total_following=user.following.count %}
                                         <span class="count">
-                                            <span class="total">{{ total_followers }}</span>
-                                            follower{{ total_followers|pluralize }}
+                                            <span class="total">{{ total_following }}</span>
+                                            followers{{ total_following|pluralize }}
                                         </span>
 
                                         <a href="#" data-id="{{ user.id }}"
-                                           data-action="{% if request.user in user.followers.all %}un{% endif %}follow"
+                                           data-action="{% if request.user in user.following.all %}un{% endif %}follow"
                                            class="follow button btn btn-warning mr-2" style="font-size: 15px;">
-                                            {% if request.user not in user.followers.all %}
+                                            {% if request.user not in user.following.all %}
                                                 Follow {% else %} Unfollow
                                             {% endif %}
                                         </a>
@@ -103,13 +103,18 @@
                                aria-selected="false">Images</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" id="actions-tab" data-toggle="tab" href="#actions" role="tab"
+                               aria-controls="actions"
+                               aria-selected="false">Actions</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" id="following-tab" data-toggle="tab" href="#following" role="tab"
-                               aria-controls="contact"
+                               aria-controls="following"
                                aria-selected="false">Followers</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="followers-tab" data-toggle="tab" href="#followers" role="tab"
-                               aria-controls="contact"
+                               aria-controls="followers"
                                aria-selected="false">Following</a>
                         </li>
                     </ul>
@@ -213,11 +218,63 @@
                             </div>
                         </div>
                     </div>
+                    <div class="tab-pane fade" id="actions" role="tabpanel" aria-labelledby="actions-tab">
+                        <h4>What's happening</h4>
+                        <div id="action-list">
+                            {% for action in actions %}
+                                {% include "account/includes/actions.html" %}
+                            {% endfor %}
+                        </div>
+                    </div>
                     <div class="tab-pane fade" id="following" role="tabpanel" aria-labelledby="following-tab">
-                        Following
+                        <div class="col-md-12">
+                            <div class="row">
+                                {% for user in following_users %}
+                                    <div class="col-md-3">
+                                        {% if user.profile.photo %}
+                                            {% thumbnail user.profile.photo "80x80" crop="100%" as im %}
+                                                <a href="{{ user.get_absolute_url }}">
+                                                    <img src="{{ im.url }}" alt="{{ user.get_full_name }}"
+                                                         class="item-img">
+                                                </a>
+                                            {% endthumbnail %}
+                                        {% else %}
+                                            <img src="{% static 'images/profile/user.png' %}" alt=""
+                                                 style="height: 70%; width: 40%; border-radius: 50%;">
+                                        {% endif %}
+                                        <p class="container ml-2">
+                                            <a href="{{ user.get_absolute_url }}"
+                                               style="color: #721c24;">{{ user.username }}</a>
+                                        </p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="followers" role="tabpanel" aria-labelledby="followers-tab">
-                        Followers
+                        <div class="col-md-12">
+                            <div class="row">
+                                {% for user in followers_users %}
+                                    <div class="col-md-3">
+                                        {% if user.profile.photo %}
+                                            {% thumbnail user.profile.photo "80x80" crop="100%" as im %}
+                                                <a href="{{ user.get_absolute_url }}">
+                                                    <img src="{{ im.url }}" alt="{{ user.get_full_name }}"
+                                                         class="item-img">
+                                                </a>
+                                            {% endthumbnail %}
+                                        {% else %}
+                                            <img src="{% static 'images/profile/user.png' %}" alt=""
+                                                 style="height: 70%; width: 40%; border-radius: 50%;">
+                                        {% endif %}
+                                        <p class="container ml-2">
+                                            <a href="{{ user.get_absolute_url }}"
+                                               style="color: #721c24;">{{ user.username }}</a>
+                                        </p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -230,31 +287,31 @@
 
 
 {% block domready %}
-  $('a.follow').click(function(e){
+    $('a.follow').click(function(e){
     e.preventDefault();
     $.post('{% url "account:user_follow" %}',
-      {
-        id: $(this).data('id'),
-        action: $(this).data('action')
-      },
-      function(data){
-        if (data['status'] == 'ok') {
-          var previous_action = $('a.follow').data('action');
+    {
+    id: $(this).data('id'),
+    action: $(this).data('action')
+    },
+    function(data){
+    if (data['status'] == 'ok') {
+    var previous_action = $('a.follow').data('action');
 
-          // toggle data-action
-          $('a.follow').data('action',
-            previous_action == 'follow' ? 'unfollow' : 'follow');
-          // toggle link text
-          $('a.follow').text(
-            previous_action == 'follow' ? 'Unfollow' : 'Follow');
+    // toggle data-action
+    $('a.follow').data('action',
+    previous_action == 'follow' ? 'unfollow' : 'follow');
+    // toggle link text
+    $('a.follow').text(
+    previous_action == 'follow' ? 'Unfollow' : 'Follow');
 
-          // update total followers
-          var previous_followers = parseInt(
-            $('span.count .total').text());
-          $('span.count .total').text(previous_action == 'follow' ?
-          previous_followers + 1 : previous_followers - 1);
-        }
-      }
+    // update total followers
+    var previous_followers = parseInt(
+    $('span.count .total').text());
+    $('span.count .total').text(previous_action == 'follow' ?
+    previous_followers + 1 : previous_followers - 1);
+    }
+    }
     );
-  });
+    });
 {% endblock %}

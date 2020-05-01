@@ -15,6 +15,7 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_POST
 from django.views.generic import FormView, RedirectView, TemplateView, ListView, DetailView
 
+from actions.models import Action
 from images.models import Image
 from winkle_social_network.common.decorators import ajax_required
 from .forms import LoginForm, UserEditForm, ProfileEditForm
@@ -107,8 +108,23 @@ class UserProfileDetailsView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         user = get_object_or_404(self.model, slug=self.kwargs.get('slug'))
         images = Image.objects.filter(user=user)
+        # actions
+        actions = Action.objects.exclude(user=user)
+        followers_ids = user.followers.values_list('id', flat=True)
+        if followers_ids:
+            # If user is following others, retrieve only their actions
+            actions = actions.filter(user_id__in=followers_ids)
+        actions = actions.select_related('user', 'user__profile') \
+                      .prefetch_related('target')[:10]
+
+        following_users = user.following.all()
+        followers_users = user.followers.all()
+
         context['user'] = user
         context['images'] = images
+        context['actions'] = actions
+        context['following_users'] = following_users
+        context['followers_users'] = followers_users
         return context
 
 
