@@ -30,6 +30,7 @@ urlpatterns = [
     path('social-auth/', include('social_django.urls', namespace='social')),
 
     path('images/', include(('images.urls', 'images'), namespace='images')),
+    #path('actions/', include(('actions.urls', 'actions'), namespace='actions')),
 
 ]
 
