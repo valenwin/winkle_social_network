@@ -5,17 +5,20 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
+from django.views.decorators.http import require_POST
 from django.views.generic import FormView, RedirectView, TemplateView, ListView, DetailView
 
 from images.models import Image
+from winkle_social_network.common.decorators import ajax_required
 from .forms import LoginForm, UserEditForm, ProfileEditForm
-from .models import CustomUser
+from .models import CustomUser, Contact
 
 
 class WincleBaseView(TemplateView):
@@ -129,3 +132,22 @@ def update_user(request):
         'user_form': user_form,
         'profile_form': profile_form
     })
+
+
+@ajax_required
+@require_POST
+@login_required
+def user_follow(request):
+    user_id = request.POST.get('id')
+    action = request.POST.get('action')
+    if user_id and action:
+        try:
+            user = get_object_or_404(CustomUser, id=user_id)
+            if action == 'follow':
+                Contact.objects.get_or_create(user_from=request.user, user_to=user)
+            else:
+                Contact.objects.filter(user_from=request.user, user_to=user).delete()
+            return JsonResponse({'status': 'ok'})
+        except CustomUser.DoesNotExist:
+            return JsonResponse({'status': 'ok'})
+    return JsonResponse({'status': 'ok'})

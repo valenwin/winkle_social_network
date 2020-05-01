@@ -5,7 +5,7 @@ from django_registration.backends.one_step.views import RegistrationView
 from .forms import CustomSignUpForm
 from .views import RegistrationCompleteView
 from .views import UserProfileDetailsView, UserProfileListView
-from .views import update_user
+from .views import update_user, user_follow
 
 urlpatterns = [
     path('accounts/register/', RegistrationView.as_view(
@@ -26,6 +26,7 @@ urlpatterns = [
         success_url=reverse_lazy('account:password_reset_complete')), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 
+    path('profile/follow/', user_follow, name='user_follow'),
     path('profile/<str:slug>', UserProfileDetailsView.as_view(), name='user_profile'),
     path('profiles', UserProfileListView.as_view(), name='profiles'),
     path('update/', update_user, name='update_profile'),

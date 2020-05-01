@@ -68,7 +68,7 @@
                                 <div class="likeds">
                                     <!-- Following System -->
                                     {% with total_followers=user.followers.count %}
-                                        <span>
+                                        <span class="count">
                                             <span class="total">{{ total_followers }}</span>
                                             follower{{ total_followers|pluralize }}
                                         </span>
@@ -199,7 +199,8 @@
                                             <div class="box-radius">
                                                 {% if image.user.profile.photo %}
                                                     <img src="{{ image.user.profile.photo.url }}" class="img" alt=""
-                                                         title="" style="height: 100%; width: 100%; border-radius: 50%;">
+                                                         title=""
+                                                         style="height: 100%; width: 100%; border-radius: 50%;">
                                                 {% else %}
                                                     <img src="{% static 'images/profile/user.png' %}" alt=""
                                                          style="height: 100%; width: 100%; border-radius: 50%;">
@@ -225,4 +226,35 @@
             <!-- /.content-wrapper -->
         </div>
     </div>
+{% endblock %}
+
+
+{% block domready %}
+  $('a.follow').click(function(e){
+    e.preventDefault();
+    $.post('{% url "account:user_follow" %}',
+      {
+        id: $(this).data('id'),
+        action: $(this).data('action')
+      },
+      function(data){
+        if (data['status'] == 'ok') {
+          var previous_action = $('a.follow').data('action');
+
+          // toggle data-action
+          $('a.follow').data('action',
+            previous_action == 'follow' ? 'unfollow' : 'follow');
+          // toggle link text
+          $('a.follow').text(
+            previous_action == 'follow' ? 'Unfollow' : 'Follow');
+
+          // update total followers
+          var previous_followers = parseInt(
+            $('span.count .total').text());
+          $('span.count .total').text(previous_action == 'follow' ?
+          previous_followers + 1 : previous_followers - 1);
+        }
+      }
+    );
+  });
 {% endblock %}
