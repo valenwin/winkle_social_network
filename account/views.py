@@ -22,10 +22,6 @@ from .forms import LoginForm, UserEditForm, ProfileEditForm
 from .models import CustomUser, Contact
 
 
-class WincleBaseView(TemplateView):
-    template_name = 'base.html'
-
-
 class RegistrationCompleteView(TemplateView):
     template_name = 'django_registration/registration_complete.html'
 

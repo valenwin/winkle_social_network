@@ -82,7 +82,7 @@
                     </div>
 
                     <div class="col-md-12 mylisting">
-                        <div class="row ml-1 mr-5">
+                        <div class="row ml-1">
                             {% for image in images %}
                                 <div class="col-md-3 col-xs-12">
                                     <div class="box">
@@ -101,7 +101,9 @@
                                                          style="height: 100%; width: 100%; border-radius: 50%;">
                                                 {% endif %}
                                             </div>
-                                            <div class="box-heading3">{{ image.title }}</div>
+                                            <div class="box-heading3">{{ image.title }}
+                                                <i class="fa pull-right fa-info-circle" aria-hidden="true"></i>
+                                            </div>
                                         </a>
                                     </div>
                                 </div>

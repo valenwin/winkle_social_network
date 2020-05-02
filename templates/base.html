@@ -1,4 +1,5 @@
 {% load static %}
+{% load thumbnail %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,71 +48,73 @@
 
 {% block content %}
     <div id="wrapper">
-        {% include 'includes/sidebar.html' %}
-        <div class="container-fluid">
-            <!-- Banner -->
-            <div class="row">
-                <div class="messages text-center col-md-12">
-                    Latest
-                    <!-- Messages -->
-                    <div class="container">
-                        {% if messages %}
-                            <ul class="alert alert-success" style="list-style-type: none;">
-                                {% for message in messages %}
-                                    <li{% if message.tags %}
-                                        class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-                    </div>
-                    <hr>
-                </div>
-                <div class="left_side">
-                    <div class="search-main">
-                        <form class="mb-3">
-                            <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                            <input type="text" name="search" placeholder="Enter a keyword....">
-                        </form>
-                    </div>
-                    <div class="col-md-3 col-xs-12 col-sm-6 p-left">
-                        <div class="box">
-                            <div class="box-img">
-                                <img src="{% static 'images/homepage/latest/01_img.jpg' %}" alt="">
-                            </div>
-                            <div class="box-heading1">
-                                Place & Event Name
-                                <div class="box-heading2">
-                                    <i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp; Location here
+    {% include 'includes/sidebar.html' %}
+    <div class="container-fluid">
+    <!-- Banner -->
+    <div class="row">
+        <div class="messages text-center col-md-12">
+            Latest
+            <!-- Messages -->
+            <div class="container">
+                {% if messages %}
+                    <ul class="alert alert-success" style="list-style-type: none;">
+                        {% for message in messages %}
+                            <li{% if message.tags %}
+                                class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <hr>
+        </div>
+        <div class="left_side">
+            <div class="search-main">
+                <form class="mb-3">
+                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    <input type="text" name="search" placeholder="Enter a keyword....">
+                </form>
+            </div>
+
+            <div class="col-md-12">
+                <div class="row">
+                    {% for image in images_by_popularity %}
+                        <div class="col-md-3 col-xs-12 col-sm-6 p-left">
+                            <div class="box">
+                                <div class="box-img">
+                                    <a href="{{ image.get_absolute_url }}">
+                                    {% thumbnail image.image "250x275" crop="100%" as im %}
+                                        <a href="{{ image.get_absolute_url }}">
+                                            <img src="{{ im.url }}" alt="">
+                                        </a>
+                                    {% endthumbnail %}
+                                    </a>
+                                </div>
+                                <div class="box-radius">
+                                    {% if image.user.profile.photo %}
+                                        <img src="{{ image.user.profile.photo.url }}" class="img" alt=""
+                                             title="" style="height: 100%; width: 100%; border-radius: 50%;">
+                                    {% else %}
+                                        <img src="{% static 'images/profile/user.png' %}" alt=""
+                                             style="height: 100%; width: 100%; border-radius: 50%;">
+                                    {% endif %}
+                                </div>
+                                <div class="box-heading3">By @
+                                    <a href="{{ image.user.get_absolute_url }}" style="color: #721c24;">
+                                        {{ image.user.username }}
+                                    </a>
+                                    <i class="fa pull-right fa-info-circle" aria-hidden="true"></i>
                                 </div>
                             </div>
-                            <div class="box-radius">
-                                <img src="{% static 'images/homepage/latest/01_dp.png' %}" class="img" alt=""
-                                     title="">
-                            </div>
-                            <div class="box-heading3">
-                                By john Doe <i class="fa pull-right fa-heart-o" aria-hidden="true"></i>
-                            </div>
                         </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
+
         </div>
     </div>
 {% endblock %}
 
-{% block footer %}
-    <!-- Sticky Footer -->
-    <footer class="sticky-footer col-md-12">
-        <div class="container my-auto">
-            <div class="copyright text-center my-auto">
-                <div class="footer-info">
-                    <a href="#">About </a> |
-                    <a href="#">Sitemap </a>
-                </div>
-            </div>
-        </div>
-    </footer>
-{% endblock %}
+{% block footer %}{% endblock %}
 <!-- /#wrapper -->
 
 <!-- Scroll to Top Button-->
@@ -148,26 +151,28 @@
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
-  <script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+<script>
     var csrftoken = Cookies.get('csrftoken');
+
     function csrfSafeMethod(method) {
-      // these HTTP methods do not require CSRF protection
-      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
     }
+
     $.ajaxSetup({
-      beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-          xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
         }
-      }
     });
 
-    $(document).ready(function(){
-      {% block domready %}
-      {% endblock %}
+    $(document).ready(function () {
+        {% block domready %}
+        {% endblock %}
     });
-  </script>
+</script>
 
 </body>
 </html>

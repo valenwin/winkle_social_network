@@ -11,8 +11,27 @@ from django.views.decorators.http import require_POST
 from django.views.generic import CreateView, DetailView, ListView, DeleteView, UpdateView
 
 from winkle_social_network.common.decorators import ajax_required
-from .models import Image
+from winkle_social_network.utils import pagination
 from .forms import ImageCreateForm, CommentForm
+from .models import Image
+
+
+class WincleBaseView(ListView):
+    template_name = 'base.html'
+    paginate_by = settings.POSTS_PER_PAGE
+
+    def get_queryset(self):
+        images_by_popularity = Image.objects.order_by('-total_likes')
+        return images_by_popularity
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        """With pagination for posts list view"""
+        context = super(WincleBaseView, self).get_context_data(**kwargs)
+        images_by_popularity = self.get_queryset()
+        context['images_by_popularity'] = pagination(self.request,
+                                                     images_by_popularity,
+                                                     self.paginate_by)
+        return context
 
 
 class ImageCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):

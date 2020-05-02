@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-from account.views import WincleBaseView
+from images.views import WincleBaseView
 
 urlpatterns = [
     path('', WincleBaseView.as_view(), name='home_page'),
