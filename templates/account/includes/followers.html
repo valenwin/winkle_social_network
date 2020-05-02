@@ -1,0 +1,28 @@
+{% load static %}
+{% load thumbnail %}
+
+<div class="col-md-3">
+    <div class="mainbox">
+        <div class="imgbox">
+            {% if user.profile.photo %}
+                {% thumbnail user.profile.photo "250x250" crop="100%" as im %}
+                    <a href="{{ user.get_absolute_url }}">
+                        <img src="{{ im.url }}" alt="{{ user.get_full_name }}"
+                             class="item-img">
+                    </a>
+                {% endthumbnail %}
+            {% else %}
+                <img src="{% static 'images/profile/user.png' %}" alt=""
+                     style="height: 100%; width: 100%;">
+            {% endif %}
+        </div>
+        <div class="lefttext">
+            {{ user.get_full_name }}
+            <p>@{{ user.username }}</p>
+        </div>
+        <div class="righttext">
+            <a href="{{ user.get_absolute_url }}">View</a>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>

@@ -230,23 +230,7 @@
                         <div class="col-md-12">
                             <div class="row">
                                 {% for user in following_users %}
-                                    <div class="col-md-3">
-                                        {% if user.profile.photo %}
-                                            {% thumbnail user.profile.photo "80x80" crop="100%" as im %}
-                                                <a href="{{ user.get_absolute_url }}">
-                                                    <img src="{{ im.url }}" alt="{{ user.get_full_name }}"
-                                                         class="item-img">
-                                                </a>
-                                            {% endthumbnail %}
-                                        {% else %}
-                                            <img src="{% static 'images/profile/user.png' %}" alt=""
-                                                 style="height: 70%; width: 40%; border-radius: 50%;">
-                                        {% endif %}
-                                        <p class="container ml-2">
-                                            <a href="{{ user.get_absolute_url }}"
-                                               style="color: #721c24;">{{ user.username }}</a>
-                                        </p>
-                                    </div>
+                                     {% include 'account/includes/followers.html' %}
                                 {% endfor %}
                             </div>
                         </div>
@@ -255,23 +239,7 @@
                         <div class="col-md-12">
                             <div class="row">
                                 {% for user in followers_users %}
-                                    <div class="col-md-3">
-                                        {% if user.profile.photo %}
-                                            {% thumbnail user.profile.photo "80x80" crop="100%" as im %}
-                                                <a href="{{ user.get_absolute_url }}">
-                                                    <img src="{{ im.url }}" alt="{{ user.get_full_name }}"
-                                                         class="item-img">
-                                                </a>
-                                            {% endthumbnail %}
-                                        {% else %}
-                                            <img src="{% static 'images/profile/user.png' %}" alt=""
-                                                 style="height: 70%; width: 40%; border-radius: 50%;">
-                                        {% endif %}
-                                        <p class="container ml-2">
-                                            <a href="{{ user.get_absolute_url }}"
-                                               style="color: #721c24;">{{ user.username }}</a>
-                                        </p>
-                                    </div>
+                                    {% include 'account/includes/followers.html' %}
                                 {% endfor %}
                             </div>
                         </div>
