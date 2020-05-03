@@ -2,7 +2,7 @@ from django.urls import path
 
 from .views import ImageCreateView, ImageDashboardListView, ImageDetailsView
 from .views import ImageUpdateView, ImageDeleteView
-from .views import image_like
+from .views import image_like, image_ranking
 
 urlpatterns = [
     path('create/', ImageCreateView.as_view(), name='create'),
@@ -12,5 +12,6 @@ urlpatterns = [
     path('image/<str:slug>/delete/', ImageDeleteView.as_view(), name='delete'),
 
     path('like', image_like, name='like'),
+    path('ranking/', image_ranking, name='create'),
 
 ]

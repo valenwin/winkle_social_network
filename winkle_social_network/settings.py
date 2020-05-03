@@ -169,6 +169,11 @@ EMAIL_USE_TLS = True
 # for testing in console
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+# Redis settings
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_DB = 0
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

@@ -1,3 +1,4 @@
+import redis
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -14,6 +15,11 @@ from winkle_social_network.common.decorators import ajax_required
 from winkle_social_network.utils import pagination
 from .forms import ImageCreateForm, CommentForm
 from .models import Image
+
+
+redis_connect = redis.StrictRedis(host=settings.REDIS_HOST,
+                                  port=settings.REDIS_PORT,
+                                  db=settings.REDIS_DB)
 
 
 class WincleBaseView(ListView):
@@ -86,9 +92,13 @@ class ImageDetailsView(DetailView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         image = get_object_or_404(self.model, slug=self.kwargs.get('slug'))
+        total_views = redis_connect.incr('image:{}:views'.format(image.id))
+        redis_connect.zincrby('img_ranking', image.id, 1)
         context['image'] = image
         context['form'] = CommentForm()
         context['comments'] = image.comments.filter(active=True)
+        context['total_views'] = total_views
+        context['section'] = 'images'
         return context
 
     def post(self, request, *args, **kwargs):
@@ -147,3 +157,18 @@ def image_like(request):
         except:
             pass
     return JsonResponse({'status': 'ok'})
+
+
+@login_required
+def image_ranking(request):
+    # get image ranking dictionary
+    img_ranking = redis_connect.zrange('img_ranking', 0, -1, desc=True)[:10]
+    image_ranking_ids = [int(id) for id in img_ranking]
+    # get most viewed images
+    most_viewed = list(Image.objects.filter(
+                           id__in=image_ranking_ids))
+    most_viewed.sort(key=lambda x: image_ranking_ids.index(x.id))
+    return render(request, 'images/image/ranking.html', {
+                      'section': 'images',
+                      'most_viewed': most_viewed
+                  })

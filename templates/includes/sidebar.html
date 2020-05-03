@@ -16,6 +16,9 @@
                 <div class="fos" id="foo1">My Profile</div>
             </a></li>
         {% endif %}
+         <li><a href="{% url 'images:create' %}"><img src="{% static 'images/menu-icon/eye.png' %}" title="" alt="">
+            <div class="fos" id="foo1">Top Images</div>
+        </a></li>
         <li><a href="{% url 'accounts:profiles' %}"><img src="{% static 'images/menu-icon/flag.png' %}" title="" alt="">
             <div class="fos" id="foo2">Profiles</div>
         </a></li>

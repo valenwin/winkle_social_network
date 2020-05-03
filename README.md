@@ -33,6 +33,10 @@ Basic models:<br />
 Other functionality:<br />
 - jQuery `Bookmark image` button (move button to your browser Bookmarks Bar and tap on it every time you want to bookmark some photo or image)
 
+- `Redis`
+    - for image view counter 
+    - for image ranking (rating of 10 most viewed images)
+
 ## Deploy project on your local machine
 
 1 - To deploy project on your local machine create new virtual environment and execute this command:
@@ -64,8 +68,10 @@ copy `Forwarding address` instead data in next files: <br />
 2. static/js/bookmarklet.js => const site_url = '\'https://`Forwarding address`\''; <br />
 3. templates/images/bookmarklet_launcher.js => 'https://`Forwarding address`/static/js/bookmarklet.js?r='
 
-5 - Load data from JSON files:
+5 - Run Redis server: `redis-server`
+    
+6 - Load data from JSON files:
 
-6 - Run app:
+7 - Run app:
 
 `python3 manage.py runserver`

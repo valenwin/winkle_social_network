@@ -48,9 +48,18 @@
                                             like{{ total_likes|pluralize }}
                                         </span>
                                         {% if request.user == image.user %}
-                                            <a href="{{ image.get_update_url }}" class="btn btn-outline-warning">Update</a>
-                                            <a href="{{ image.get_delete_url }}" class="btn btn-outline-danger">Delete</a>
+                                            <a href="{{ image.get_update_url }}"
+                                               class="btn btn-outline-warning">Update</a>
+                                            <a href="{{ image.get_delete_url }}"
+                                               class="btn btn-outline-danger">Delete</a>
                                         {% endif %}
+
+                                        <div>
+                                            <h3><span class="badge badge-secondary">
+                                                {{ total_views }} View{{ total_views|pluralize }}
+                                            </span></h3>
+                                        </div>
+
                                     </div>
                                 </div>
                                 <div>
