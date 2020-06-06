@@ -6,7 +6,7 @@ clearbit==0.1.7
 confusable-homoglyphs==3.2.0
 cryptography==2.9.2
 defusedxml==0.6.0
-Django==3.0.5
+Django==3.0.7
 django-allauth==0.41.0
 django-registration==3.1
 environs==7.4.0
